@@ -2,6 +2,9 @@
 Inspired by JonyLuke's Undertale Save Converter (https://github.com/jonyluke/Undertale-save-converter).
 This version is a complete re-write, and features full bi-directional conversion functionality.
 
+Project page on the GBATemp Forum:
+https://gbatemp.net/threads/undertale-save-game-converter-v2-with-full-bi-directional-pc-switch-conversion-ability.542897/
+
 ## Requirements
 - Python3 (https://www.python.org/downloads/)
 - Undertale
