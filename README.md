@@ -39,6 +39,6 @@ This version is a complete re-write, and features full bi-directional conversion
 2. Install the Py2Exe utility (`py -3.4 -m pip install py2exe`) - https://pypi.org/project/py2exe/
 3. Install pywin32-221.win32-py3.4.exe from https://sourceforge.net/projects/pywin32/files/pywin32/Build%20221/
 4. Check out this git repo to a folder on your local computer.
-5. Browse to the folder and execute `pip install -r requirements.txt` (to install dependencies).
+5. Browse to the folder and execute `py -3.4 -m pip install -r requirements.txt` (to install dependencies).
 6. Execute `py -3.4 -m py2exe.build_exe undertale_save_converter.py` to compile the undertale_save_converter.py file to an .exe file.
 7. Look inside the `dist` folder for your newly created `undertale_save_converter.exe` file!
