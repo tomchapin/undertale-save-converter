@@ -2,53 +2,23 @@
 # https://github.com/tomchapin/undertale-save-converter
 
 #############################################################################################
-# Helper Methods
+# Imports
 #############################################################################################
 
-
-def get_char():
-    """
-    Gets a single character from user input.
-    Compatible with both Unix and Windows.
-    """
-    try:
-        # Attempt the Windows method
-        import msvcrt
-        char = msvcrt.getch()
-    except ImportError:
-        # Fall back on the Unix method
-        import sys
-        import tty
-        import termios
-        fd = sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
-        try:
-            tty.setraw(sys.stdin.fileno())
-            char = sys.stdin.read(1)
-        finally:
-            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    return char
+import msvcrt  # For getting user input on Windows (we use this on our main menu)
+import subprocess  # For executing a shell command (we use this to clear the screen)
 
 
-def file_length(file_path):
-    """
-    Returns the number of lines in a file
-    """
-    file_handler = open(file_path)
-    num_lines = sum(1 for _line in file_handler)
-    file_handler.close()
-    return num_lines
-
+#############################################################################################
+# Helper Methods
+#############################################################################################
 
 def clear_screen():
     """
     Clears the terminal screen.
-    Compatible with both Unix and Windows.
+    Only compatible with Windows.
     """
-    import platform  # For getting the operating system name
-    import subprocess  # For executing a shell command
-    command = "cls" if platform.system().lower() == "windows" else "clear"
-    return subprocess.call(command, shell=True) == 0
+    return subprocess.call("cls", shell=True) == 0
 
 
 #############################################################################################
@@ -60,16 +30,16 @@ def pc_file_to_switch_text(input_file):
     Converts all of the PC file's lines to a single line of text meant for the Switch game save file
     """
     result = ''
-    line_count = file_length(input_file.name)
+    file_contents = input_file.read()
 
-    for cnt, line in enumerate(input_file):
+    for cnt, line in enumerate(file_contents):
         # Remove line break character from end of line
         new_line = line.replace("\n", '')
 
         # Strip spaces from the end of line
         new_line = new_line.rstrip()
 
-        if cnt+1 < line_count:
+        if cnt+1 < len(file_contents):
             # Add on line break characters (unless this is the very last line)
             new_line = new_line + "\\r\\n"
 
@@ -83,8 +53,9 @@ def pc_undertale_ini_to_switch_text(input_file):
     Converts all of the undertale.ini file's lines to a single line of text meant for the Switch game save file
     """
     result = ''
+    file_contents = input_file.read()
 
-    for cnt, line in enumerate(input_file):
+    for cnt, line in enumerate(file_contents):
         # Remove line break character from end of line
         new_line = line.replace("\n", '')
 
@@ -119,8 +90,7 @@ def convert_from_pc_to_switch():
 
     switch_undertale_sav.write('{ "default": "", "file9": "')
     switch_undertale_sav.write(pc_file_to_switch_text(pc_file9))
-    switch_undertale_sav.write('"')
-    switch_undertale_sav.write(', "config.ini": "", "undertale.ini": "')
+    switch_undertale_sav.write('", "config.ini": "", "undertale.ini": "')
     switch_undertale_sav.write(pc_undertale_ini_to_switch_text(pc_undertale_ini))
     switch_undertale_sav.write('", "file0": "')
     switch_undertale_sav.write(pc_file_to_switch_text(pc_file0))
@@ -165,6 +135,7 @@ def file0_content_from_switch_save():
 
 def switch_file_text_to_pc_file_lines(extracted_text):
     result = ''
+
     # Convert all the line endings to PC line endings
     lines = extracted_text.split("\\r\\n")
 
@@ -228,7 +199,7 @@ def display_menu():
     print("")
     print("  Press (1) or (2) to select a menu option, or press (Escape) to exit:")
 
-    user_input = get_char()
+    user_input = msvcrt.getch()
     if user_input == b'1':
         # 1 was pressed
         convert_from_pc_to_switch()
@@ -245,4 +216,3 @@ def display_menu():
 
 if __name__ == '__main__':
     display_menu()
-
