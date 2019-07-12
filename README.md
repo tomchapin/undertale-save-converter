@@ -34,7 +34,7 @@ This version is a complete re-write, and features full bi-directional conversion
 3. Alternately (if you want to run the script via python), execute `python undertale_save_converter.py` (requires Python 3 to be installed).
 
 
-### Compiling the executable (if you don't want to download and use the supplied converter.exe file)
+### Compiling the executable (if you don't want to download and use the supplied undertale_save_converter.exe file)
 1. Install Python 3.4 (x86) on a Windows computer, making sure you select the option to add Python to your path.
 2. Install the Py2Exe utility (`py -3.4 -m pip install py2exe`) - https://pypi.org/project/py2exe/
 3. Install pywin32-221.win32-py3.4.exe from https://sourceforge.net/projects/pywin32/files/pywin32/Build%20221/
